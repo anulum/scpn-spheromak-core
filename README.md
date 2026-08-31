@@ -8,6 +8,11 @@ Contact: www.anulum.li | protoscience@anulum.li
 SCPN Spheromak Core — README
 -->
 
+<div align="center">
+  <img src="docs/assets/repo_header.png"
+       alt="SCPN Spheromak Core — Compact Toroid, Self-Generated Field">
+</div>
+
 # SCPN Spheromak Core
 
 Governed device-family repository for spheromak fusion systems within the
