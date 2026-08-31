@@ -13,10 +13,12 @@ SCPN Spheromak Core — Architecture
 ## Purpose and evidence state
 
 `SCPN-SPHEROMAK-CORE` is the device-family owner for spheromak systems in
-the SCPN Reactor Systems Research Group portfolio. The repository is
-`architecture_only`: every section below describes boundaries and
-contracts, not implemented capability. The capability and claim inventories
-are empty; both derived artefacts are generated and drift-checked.
+the SCPN Reactor Systems Research Group portfolio. The
+repository owns one implemented capability — the device configuration model
+at `computational_prototype` (`src/scpn_spheromak_core/`, design record ADR 0002,
+evidence record `VALIDATION.md#device-configuration-model`). Every other
+section below describes boundaries and contracts. The claim inventory is
+empty; capability and claim inventories are generated and drift-checked.
 
 ## The five-surface boundary
 
