@@ -10,6 +10,11 @@
       "evidence_maturity": "computational_prototype",
       "evidence_pointer": "VALIDATION.md#device-configuration-model",
       "identifier": "device_configuration_model"
+    },
+    {
+      "evidence_maturity": "computational_prototype",
+      "evidence_pointer": "VALIDATION.md#diagnostic-and-clock-semantics",
+      "identifier": "diagnostic_clock_semantics"
     }
   ],
   "configurations": [
@@ -51,7 +56,7 @@
     "manifest_path": "reactor-domain.json",
     "manifest_schema": "scpn.reactor-domain.v1",
     "manifest_schema_version": "1.0.0",
-    "manifest_sha256": "0284d59801f59ba4e0c3ca6eaedb9c6df1ca007276853330610f5b78a258622f",
+    "manifest_sha256": "24bcc6a2fb3acf3ad81fcae581d0de096bd88617b0216e16f31550231abca550",
     "repository": "SCPN-SPHEROMAK-CORE"
   },
   "spo_registry": {
