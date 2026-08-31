@@ -52,6 +52,13 @@ from scpn_spheromak_core.parameters import (
     FluxConserverGeometry,
     FormationSource,
 )
+from scpn_spheromak_core.plan_envelope import (
+    PlanEnvelope,
+    envelope_for_plan,
+    envelope_from_bytes,
+    envelope_from_record,
+    verify_envelope,
+)
 
 __version__: Final = "0.1.0.dev0"
 
@@ -75,11 +82,16 @@ __all__ = [
     "FormationSource",
     "ObservabilityBinding",
     "ObservabilityClass",
+    "PlanEnvelope",
     "RegistryBinding",
     "SemanticCarrier",
     "__version__",
     "configuration_from_bytes",
     "configuration_from_record",
+    "envelope_for_plan",
+    "envelope_from_bytes",
+    "envelope_from_record",
     "plan_from_bytes",
     "plan_from_record",
+    "verify_envelope",
 ]
