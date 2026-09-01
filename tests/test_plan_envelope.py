@@ -42,7 +42,7 @@ from scpn_spheromak_core.plan_envelope import (
 )
 
 FIXTURE = Path(__file__).parent / "data" / "plan_envelope_fixture.json"
-FIXTURE_SHA256 = "91ef7ec0aee62de4726b0f0260e91fad227f51f7df475e24fed5d55b413499f7"
+FIXTURE_SHA256 = "325a7a196c279a6ea3c0954678611d07a583acee4d41cc5e47a81ddcc2d2a8f5"
 
 
 def fixture_document() -> dict[str, Any]:
