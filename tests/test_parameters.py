@@ -20,6 +20,7 @@ import pytest
 
 from scpn_spheromak_core.errors import DeviceConfigurationError
 from scpn_spheromak_core.parameters import (
+    BESSEL_J1_FIRST_ZERO,
     MU0,
     FluxConserverGeometry,
     FormationSource,
@@ -61,10 +62,14 @@ def test_require_positive_accepts_and_rejects() -> None:
 
 
 def test_taylor_eigenvalue_formula() -> None:
-    """The conserver eigenvalue follows the cylindrical Taylor formula."""
+    """The conserver eigenvalue follows the cylindrical Taylor formula exactly."""
     value = synthetic_geometry().taylor_eigenvalue_per_m()
-    expected = math.sqrt((3.832 / 0.5) ** 2 + (math.pi / 1.0) ** 2)
-    assert value == pytest.approx(expected)
+    radial = BESSEL_J1_FIRST_ZERO / 0.5
+    axial = math.pi / 1.0
+    assert value == math.sqrt(radial * radial + axial * axial)
+    assert value == pytest.approx(math.sqrt((3.832 / 0.5) ** 2 + math.pi**2), rel=1e-4)
+    assert BESSEL_J1_FIRST_ZERO == 3.8317059702075125
+    assert round(BESSEL_J1_FIRST_ZERO, 3) == 3.832
 
 
 def test_gun_lambda_formula() -> None:

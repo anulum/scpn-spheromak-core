@@ -25,3 +25,13 @@ class DiagnosticPlanError(ValueError):
     Every rejection carries the offending field and the violated bound in
     its message; nothing is clamped or silently corrected.
     """
+
+
+class NumericsError(DeviceConfigurationError):
+    """Raised when a level-0 evaluation leaves the domain of a shared kernel.
+
+    The shared kernel library refuses (never clamps) a Bessel-series
+    argument outside its declared domain or non-finite and a unit-circle
+    division that is not a multiple of eight; this error re-raises that
+    refusal under the device error type with the library's message.
+    """

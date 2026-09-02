@@ -14,6 +14,42 @@ SCPN Spheromak Core — CHANGELOG
 
 ### Added
 
+- Level-0 device physics (`src/scpn_spheromak_core/physics/`), the third
+  implemented capability at `computational_prototype` (ADR 0005): the
+  cylindrical Taylor eigenvalue of the flux conserver with its
+  wavenumbers, the relaxed-state Chandrasekhar–Kendall field on a
+  declared grid of radial stations and axial divisions, and the formation
+  disposition of the coaxial source against the eigenvalue, with a
+  canonical `Level0PhysicsRecord`, explicit `ModelInputs` and two pinned
+  reference digests. The Bessel functions, the zero and the unit circle
+  are the shared kernel library's (`scpn-reactor-kernels`, ADR 0006): the
+  library is the one runtime dependency pinned to a commit object in
+  `pyproject.toml`, the manifest records the same commit, the library's
+  kernel-inventory digest and the consumed kernels in a new optional
+  `kernel_library` block enforced by the validator, and declares the
+  excluded domain `shared_physics_geometry_and_numerics_kernels`. Native
+  kernels (`rust/`, crate `scpn-spheromak-rs` depending on the library's
+  Rust crate at the same commit, optional distribution
+  `scpn-spheromak-native`) reproduce every value bit for bit, proven by
+  parity tests; a standard-conformant benchmark
+  (`benchmarks/level0_physics.py`) with a committed local artefact and
+  `docs/benchmarks.md`. The manifest declares the capability and the
+  owned domain `analytic_device_physics_models`; descriptor and inventory
+  regenerated; the envelope fixture regenerated for the new
+  `manifest_sha256` (plan bytes unchanged). Gates extended: `mypy` scope
+  includes `benchmarks/` (and `make typecheck` now covers `src/`), CI
+  installs the package with its pinned dependency, a `rust` CI job runs
+  the crate gates, parity and a benchmark smoke, `make rust` locally.
+
+### Changed
+
+- Device configuration model: the Bessel zero of the cylindrical Taylor
+  eigenvalue is the shared library's correctly rounded `j_{1,1}`
+  (`3.8317059702075125`) instead of the literal `3.832`, and the
+  eigenvalue is evaluated as `sqrt(k_r k_r + k_z k_z)`; the value of any
+  configuration changes in the fourth significant figure and the level-0
+  physics reproduces it bit for bit (ADR 0002 addendum).
+
 - Diagnostic-plan depth: per-channel signal inventories, frame
   transformations with a fixed kind-admissibility table and connectivity
   rule, and a clock topology partitioning the physical clocks into rooted

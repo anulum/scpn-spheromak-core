@@ -19,14 +19,15 @@ followed by the evidence record of each implemented capability.
 |---|---|---|
 | Lint | `ruff check .` | all Python under `src/`, `tools/`, and `tests/` |
 | Format | `ruff format --check .` | same scope |
-| Typing | `mypy --strict src tools tests` | zero errors, strict mode |
+| Typing | `mypy --strict src tools tests benchmarks` | zero errors, strict mode |
 | Tests + coverage | `pytest -q --cov=src --cov=tools --cov-branch --cov-fail-under=100` | 100 % statement and branch coverage of `src/` and `tools/` |
-| Domain manifest | `python3 tools/validate_reactor_domain.py reactor-domain.json` | schema, registry version/digest, exact configuration set, capability inventory shape and ceiling rule, safety boundary |
+| Domain manifest | `python3 tools/validate_reactor_domain.py reactor-domain.json` | schema, registry version/digest, exact configuration set, capability inventory shape and ceiling rule, safety boundary, the optional shared-kernel-library pin |
 | Studio descriptor | `python3 tools/derive_studio_descriptor.py --check` | committed descriptor byte-identical to a fresh derivation |
 | Capability inventory | `python3 tools/generate_capability_inventory.py --check` | committed inventory byte-identical to a fresh generation |
 | Licensing | `reuse lint` | REUSE 3.x compliance of the full tree |
 | Workflow lint | `actionlint` | all files under `.github/workflows/` |
 | Workflow modularity | `python3 tools/audit_workflows.py` | distributed workflow inventory: single ownership per job, coordinator/gate contract, action pinning, size ceilings |
+| Native crate | `make rust` | format, lint and unit tests of the optional native kernels (fetches the pinned kernel crate) |
 | Documentation | `python3 tools/preflight.py --only docs` | UTF-8 readability and relative-link integrity of every Markdown file |
 | Orchestrated | `python3 tools/preflight.py` | fail-closed run of all gates above |
 
@@ -47,7 +48,7 @@ verifies locally and in hosted CI.
 |---|---|
 | `ci.yml` | coordinator and stable required gate |
 | `reusable-static-policy.yml` | lint, format, typing, domain policy, workflow guard |
-| `reusable-tests.yml` | tests with complete statement and branch coverage |
+| `reusable-tests.yml` | tests with complete statement and branch coverage; native crate gates, bit-exact parity and a benchmark smoke |
 | `pre-commit.yml` | exact pre-commit parity |
 | `codeql.yml` | Python code scanning |
 | `security-audit.yml` | secrets, dependency, licence, and workflow policy |
@@ -85,7 +86,9 @@ What is exercised, all under the 100 % statement-and-branch coverage gate:
   never clamped: the formation-source parameter
   `lambda_gun = mu0 I_gun / Phi_bias` is compared with the cylindrical
   flux-conserver Taylor eigenvalue
-  `lambda_fc = sqrt((3.832/R)^2 + (pi/L)^2)`; a source below the
+  `lambda_fc = sqrt((j11/R)^2 + (pi/L)^2)` with `j11` the shared kernel
+  library's correctly rounded first zero of `J1` (the earlier literal
+  `3.832` was its rounding; ADR 0002 addendum); a source below the
   threshold is flagged (Bellan 2000, chs. 3-4).
 - Canonical serialisation (sorted keys, NaN/infinity rejected on both
   emit and parse), SHA-256 digest identity, and a strict round-trip
@@ -100,6 +103,96 @@ Bounded claims — what is NOT claimed:
 - The estimates are advisory regime checks, not equilibrium, relaxation,
   or stability results; no benchmark, dataset, solver, controller, or
   experimental correlation exists in this repository.
+
+## Level-0 device physics
+
+Evidence record of the `level0_device_physics` capability
+(`computational_prototype`; design records:
+`docs/adr/0005-level0-device-physics.md` and
+`docs/adr/0006-shared-numerics-kernels.md`). Sources (all freely
+available): R. D. Wood et al., "Improved operation of the SSPX
+spheromak", UCRL-JRNL-214703 (2005), OSTI 883741; E. B. Hooper et al.,
+"Reactor opportunities for the spheromak" (2003), OSTI 15005037;
+PPPL-2257, "Verification of the Taylor state in the S-1 spheromak" (1985),
+OSTI 5141825; the Bessel functions, their zeros and the unit circle
+through the pinned shared kernel library (NIST DLMF 10.2.2, 10.21; OEIS
+A115369).
+
+What is exercised, all under the 100 % statement-and-branch coverage gate
+(`src/scpn_spheromak_core/physics/`):
+
+- **Numerics substrate** (`numerics.py`): ``J0``, ``J1``, the zero
+  ``j_{1,1}`` and the unit circle are the pinned shared kernel library's
+  (`scpn-reactor-kernels`, kernels `numerics_bessel` and
+  `geometry_unit_circle`; commit and inventory digest in
+  `reactor-domain.json`, `kernel_library`); tests prove each wrapper
+  returns the library value bit for bit, that the zero is the same
+  constant the configuration model uses, and that a library refusal
+  (Bessel argument outside ``|x| <= 8`` or non-finite; a segment count
+  below eight or not a multiple of eight) is re-raised as `NumericsError`
+  (a configuration error). The manifest block is validated field by field
+  and a contract test proves the manifest, the `pyproject.toml`
+  dependency, the installed library version, `rust/Cargo.toml`,
+  `rust/Cargo.lock` and the CI install steps name one commit.
+- **Taylor eigenvalue** (`eigenvalue.py`; Hooper 2003 definition, Wood
+  2005 value, PPPL-2257 scaling): the SSPX conserver ("1 m diameter by
+  0.5 m high") gives ``lambda_fc = 9.91 m^-1`` against the printed
+  ``9.9 m^-1`` within the declared 1 % tolerance (0.1 %); doubling both
+  extents halves the eigenvalue and both wavenumbers exactly (the
+  inverse-radius scaling at fixed shape); the value equals the
+  configuration model's `taylor_eigenvalue_per_m()` bit for bit;
+  non-positive extents are refused.
+- **Relaxed-state field** (`field.py`; the separation form of the
+  eigenvalue problem): on the midplane axis ``B_z = B0`` exactly and the
+  other components vanish; at the wall ``B_r`` and ``B_theta`` vanish to
+  `1e-15 B0` (the kernel's ``J1(j_{1,1})``); at both end plates ``B_z = 0``
+  exactly (the kernel's exact phases); the three components of
+  ``curl B`` equal ``lambda B`` and ``div B`` vanishes by central
+  differences to `1e-6` relative; the axial phases equal the platform's
+  sine and cosine to `1e-15` (a test-side cross-check, never used by the
+  model); the grid layout is fixed (radial outermost); stations outside
+  ``[0, 1]``, division counts that are not positive multiples of four and
+  a non-positive axis field are refused.
+- **Formation disposition** (`formation.py`; Wood 2005): hollow above
+  ``1 + tolerance``, peaked below ``1 - tolerance``, relaxed inside with
+  inclusive edges; at zero tolerance the peaked side coincides with the
+  configuration model's advisory finding; inputs outside their domains
+  are refused.
+- A composed `Level0PhysicsRecord` (`scpn.spheromak-level0-physics.v1`
+  `1.0.0`) with canonical bytes, SHA-256 digest, fixed non-claims and two
+  pinned reference digests (relaxed and peaked), built from the validated
+  configuration and explicit `ModelInputs` (axis field, radial stations,
+  axial divisions, relaxed-band tolerance); every input is validated.
+- **Native parity**: the Rust crate in `rust/` mirrors every kernel with
+  identical operation order on the library's Rust crate at the pinned
+  commit; `tests/test_physics_native_parity.py` compares float64 bit
+  patterns for the eigenvalue of four geometries, the axial phases of
+  three division counts, 560 field samples and four dispositions, plus
+  the refusal paths of the bindings.
+- **Benchmark**: `benchmarks/level0_physics.py` per the ecosystem
+  benchmark standard; results in `docs/benchmarks.md` and the committed
+  local artefact `benchmarks/results/level0_physics.local.json`.
+
+Bounded claims — what is NOT claimed:
+
+- Every number is a closed-form evaluation of the lowest axisymmetric
+  relaxed state of an ideal cylindrical flux conserver on a synthetic
+  configuration; no equilibrium reconstruction, stability, helicity
+  balance or resistive decay is computed, and no eigenvalue problem is
+  solved numerically (the eigenvalue is the closed form of the cylinder).
+- The SSPX anchor reproduces one printed number within a declared
+  tolerance; it is not a correlation with the machine's data. The
+  cylindrical eigenvalue's own citation (Turner et al. 1983) is not on
+  file; the separation form is derived here and the curl identity is
+  tested numerically.
+- The magnetic axis, the helicity–energy relation, the tilt criterion and
+  the decay time are not evaluated (no filed source or kernel).
+- The formation disposition restates a published operating rule against
+  a declared tolerance; it predicts nothing about any discharge.
+- No value describes, approximates or validates any real machine; the
+  benchmark measures per-point evaluation cost of two implementations of
+  the same closed forms, not physics.
+- Maturity stays `computational_prototype`.
 
 ## Diagnostic and clock semantics
 

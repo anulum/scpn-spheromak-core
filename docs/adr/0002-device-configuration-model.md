@@ -62,3 +62,14 @@ family pilot.
 - Later lanes (magnetics/helicity diagnostic semantics, safety
   envelope) build on these types; maturity advances per capability only
   with the evidence the family standard requires.
+
+## Addendum (2026-09-02) — the Bessel zero is the shared library's constant
+
+The literal `3.832` of the cylindrical Taylor eigenvalue is replaced by the
+correctly rounded first zero of `J1` carried by the pinned shared kernel
+library (`3.8317059702075125`, OEIS A115369; ADR 0006), and the eigenvalue
+is evaluated as `sqrt(k_r k_r + k_z k_z)` so the level-0 physics (ADR 0005)
+reproduces it bit for bit. The eigenvalue of any configuration changes in
+the fourth significant figure; the advisory's direction is unchanged for
+every exercised fixture. The applicability bounds and non-claims of this
+record are unchanged.

@@ -10,12 +10,14 @@
 
 The derived quantities implement two standard results and nothing more:
 the Taylor-state eigenvalue of a cylindrical flux conserver
-``lambda_fc = sqrt((x11 / R)^2 + (pi / L)^2)`` with ``x11 = 3.832``
-(first zero of the Bessel function J1), and the formation-source
-parameter ``lambda_gun = mu0 I_gun / Phi_bias`` (P. M. Bellan,
-Spheromaks, Imperial College Press, 2000, chs. 3-4). Both are rough
-consistency instruments with documented applicability bounds; no claim
-about any real machine follows from them.
+``lambda_fc = sqrt((j11 / R)^2 + (pi / L)^2)`` with ``j11`` the first
+positive zero of the Bessel function ``J1`` (the shared kernel library's
+correctly rounded constant, OEIS A115369; the earlier literal ``3.832``
+was its rounding), and the formation-source parameter
+``lambda_gun = mu0 I_gun / Phi_bias`` (P. M. Bellan, Spheromaks, Imperial
+College Press, 2000, chs. 3-4). Both are rough consistency instruments
+with documented applicability bounds; no claim about any real machine
+follows from them.
 """
 
 from __future__ import annotations
@@ -24,9 +26,10 @@ import math
 from dataclasses import dataclass
 from typing import Final
 
+from scpn_reactor_kernels.numerics import BESSEL_J1_FIRST_ZERO as BESSEL_J1_FIRST_ZERO
+
 from scpn_spheromak_core.errors import DeviceConfigurationError
 
-BESSEL_J1_FIRST_ZERO: Final = 3.832
 MU0: Final = 4.0e-7 * math.pi
 
 
@@ -121,13 +124,16 @@ class FluxConserverGeometry:
         Returns
         -------
         float
-            ``lambda_fc = sqrt((3.832 / R)^2 + (pi / L)^2)`` in inverse
+            ``lambda_fc = sqrt((j11 / R)^2 + (pi / L)^2)`` in inverse
             metres — the force-free eigenvalue of the minimum-energy
-            state in a cylindrical conserver (Bellan 2000, ch. 3).
+            state in a cylindrical conserver (Bellan 2000, ch. 3),
+            evaluated as ``sqrt(k_r k_r + k_z k_z)`` with ``k_r = j11 / R``
+            and ``k_z = pi / L`` (the level-0 physics reproduces it bit
+            for bit).
         """
-        return math.sqrt(
-            (BESSEL_J1_FIRST_ZERO / self.radius_m) ** 2 + (math.pi / self.length_m) ** 2
-        )
+        radial = BESSEL_J1_FIRST_ZERO / self.radius_m
+        axial = math.pi / self.length_m
+        return math.sqrt(radial * radial + axial * axial)
 
 
 @dataclass(frozen=True, slots=True)

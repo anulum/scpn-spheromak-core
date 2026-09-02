@@ -41,6 +41,20 @@ this repository until it appears in the capability inventory with evidence.
   `VALIDATION.md#diagnostic-and-clock-semantics`). No ingress is
   declared; the SPO semantic-profile state remains `not_declared`.
 
+- **Level-0 device physics** (landed 2026-09-02) — the cylindrical Taylor
+  eigenvalue of the flux conserver on the shared library's Bessel zero
+  (anchored to the printed SSPX value within 1 %), the relaxed-state
+  Chandrasekhar–Kendall field on a declared grid whose axial phases are
+  the library's unit circle, and the formation disposition of the coaxial
+  source (hollow, peaked, relaxed) against a declared tolerance; a
+  canonical `Level0PhysicsRecord`, the shared kernels pinned by commit
+  and inventory digest, optional native kernels bit-exact with the Python
+  floor, and a standard-conformant benchmark; `computational_prototype`
+  (ADR 0005, ADR 0006, `VALIDATION.md#level-0-device-physics`). Recorded
+  blockers under the same capability: the magnetic axis (first zero of
+  `J1'` not in the library), the helicity–energy relation, the tilt
+  criterion and the resistive decay time (no filed source).
+
 ## Planned (no implementation exists; ordering is not a commitment)
 1. **Safety-envelope declaration** — machine-readable operational envelope
    (bank energy, gun current, tilt/shift margins) consumed by the CONTROL

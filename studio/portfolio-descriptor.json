@@ -15,6 +15,11 @@
       "evidence_maturity": "computational_prototype",
       "evidence_pointer": "VALIDATION.md#diagnostic-and-clock-semantics",
       "identifier": "diagnostic_clock_semantics"
+    },
+    {
+      "evidence_maturity": "computational_prototype",
+      "evidence_pointer": "VALIDATION.md#level-0-device-physics",
+      "identifier": "level0_device_physics"
     }
   ],
   "configurations": [
@@ -41,7 +46,7 @@
     "not safety-certified",
     "not autonomous-plant-ready",
     "not commercially reactor-ready",
-    "no implemented solver, controller, benchmark, dataset, or published artefact",
+    "no implemented solver, controller, dataset, or published artefact; the level-0 cylindrical relaxed state (evaluated on the pinned shared numerics kernels) and its timing benchmark are computational prototypes, not validated equilibrium, formation or confinement claims",
     "no experimental correlation",
     "no parameter set describes or validates any real machine"
   ],
@@ -56,7 +61,7 @@
     "manifest_path": "reactor-domain.json",
     "manifest_schema": "scpn.reactor-domain.v1",
     "manifest_schema_version": "1.0.0",
-    "manifest_sha256": "24bcc6a2fb3acf3ad81fcae581d0de096bd88617b0216e16f31550231abca550",
+    "manifest_sha256": "e2b9486b6b1226ec9aa3387a02cc9581896c320b44f91954cbd8999cedcea059",
     "repository": "SCPN-SPHEROMAK-CORE"
   },
   "spo_registry": {

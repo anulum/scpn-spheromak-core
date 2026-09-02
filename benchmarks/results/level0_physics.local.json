@@ -1,0 +1,51 @@
+{
+  "generated_at": "2026-09-02T21:52:08.242362+00:00",
+  "label": "local",
+  "parameters": {
+    "points": 20000,
+    "repeats": 20,
+    "warmup": 3
+  },
+  "platform": {
+    "commit": "5712e5d9535477033c83a3d6e1586bcef288eb25",
+    "cpu_model": "11th Gen Intel(R) Core(TM) i5-11600K @ 3.90GHz",
+    "isolated_cores": false,
+    "load_average_1min_at_start": "7.25",
+    "machine": "x86_64",
+    "platform": "Linux-7.0.0-30-generic-x86_64-with-glibc2.39",
+    "python": "3.12.3"
+  },
+  "results": [
+    {
+      "backend": "python_floor",
+      "name": "level0_grid_pass",
+      "stats": {
+        "max_us_per_point": 156.2288354,
+        "mean_us_per_point": 149.4466946475,
+        "min_us_per_point": 144.73584275,
+        "p50_us_per_point": 148.81113274999998,
+        "p95_us_per_point": 156.0998669,
+        "p99_us_per_point": 156.2288354,
+        "throughput_points_per_s": 6719.9273436079675
+      },
+      "status": "measured"
+    },
+    {
+      "backend": "rust_native",
+      "name": "level0_grid_pass",
+      "requires": "optional native build (rust/, maturin)",
+      "speedup_p50_vs_python_floor": 15.414317723607766,
+      "stats": {
+        "max_us_per_point": 10.78608845,
+        "mean_us_per_point": 9.86206934,
+        "min_us_per_point": 9.40537855,
+        "p50_us_per_point": 9.65408495,
+        "p95_us_per_point": 10.59321845,
+        "p99_us_per_point": 10.78608845,
+        "throughput_points_per_s": 103583.09515393275
+      },
+      "status": "measured"
+    }
+  ],
+  "schema": "scpn-spheromak-core.level0-physics-benchmark.v1"
+}
