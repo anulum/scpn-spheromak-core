@@ -20,6 +20,16 @@
       "evidence_maturity": "computational_prototype",
       "evidence_pointer": "VALIDATION.md#level-0-device-physics",
       "identifier": "level0_device_physics"
+    },
+    {
+      "evidence_maturity": "computational_prototype",
+      "evidence_pointer": "VALIDATION.md#device-3d-model",
+      "identifier": "device_3d_model"
+    },
+    {
+      "evidence_maturity": "computational_prototype",
+      "evidence_pointer": "VALIDATION.md#device-cad-model",
+      "identifier": "device_cad_model"
     }
   ],
   "configurations": [
@@ -46,7 +56,7 @@
     "not safety-certified",
     "not autonomous-plant-ready",
     "not commercially reactor-ready",
-    "no implemented solver, controller, dataset, or published artefact; the level-0 cylindrical relaxed state (evaluated on the pinned shared numerics kernels) and its timing benchmark are computational prototypes, not validated equilibrium, formation or confinement claims",
+    "no implemented solver, controller, dataset, or published artefact; the level-0 cylindrical relaxed state (evaluated on the pinned shared numerics kernels), the analytic-surface device 3D model, the B-rep CAD model of the same design (built by the pinned third-party OpenCASCADE kernel, checked against the analytic closed forms, STEP deterministic only within the pinned back-end environment) and their timing benchmarks are computational prototypes, not validated equilibrium, formation or confinement claims",
     "no experimental correlation",
     "no parameter set describes or validates any real machine"
   ],
@@ -61,7 +71,7 @@
     "manifest_path": "reactor-domain.json",
     "manifest_schema": "scpn.reactor-domain.v1",
     "manifest_schema_version": "1.0.0",
-    "manifest_sha256": "e2b9486b6b1226ec9aa3387a02cc9581896c320b44f91954cbd8999cedcea059",
+    "manifest_sha256": "8174fd1c70e570f8318c57fc8936fee84605096ff07d0c634b5fc1fe4ecf802d",
     "repository": "SCPN-SPHEROMAK-CORE"
   },
   "spo_registry": {

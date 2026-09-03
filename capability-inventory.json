@@ -14,16 +14,26 @@
       "evidence_maturity": "computational_prototype",
       "evidence_pointer": "VALIDATION.md#level-0-device-physics",
       "identifier": "level0_device_physics"
+    },
+    {
+      "evidence_maturity": "computational_prototype",
+      "evidence_pointer": "VALIDATION.md#device-3d-model",
+      "identifier": "device_3d_model"
+    },
+    {
+      "evidence_maturity": "computational_prototype",
+      "evidence_pointer": "VALIDATION.md#device-cad-model",
+      "identifier": "device_cad_model"
     }
   ],
   "claims": [],
   "evidence_maturity": "computational_prototype",
-  "implemented_capability_count": 3,
+  "implemented_capability_count": 5,
   "project": "SCPN-SPHEROMAK-CORE",
   "schema": "scpn.capability-inventory.v1",
   "schema_version": "1.0.0",
   "source": {
     "manifest_path": "reactor-domain.json",
-    "manifest_sha256": "e2b9486b6b1226ec9aa3387a02cc9581896c320b44f91954cbd8999cedcea059"
+    "manifest_sha256": "8174fd1c70e570f8318c57fc8936fee84605096ff07d0c634b5fc1fe4ecf802d"
   }
 }

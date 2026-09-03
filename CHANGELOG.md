@@ -14,6 +14,27 @@ SCPN Spheromak Core — CHANGELOG
 
 ### Added
 
+- Device 3D model and device CAD model (`src/scpn_spheromak_core/geometry/`,
+  capabilities `device_3d_model` and `device_cad_model`, ADR 0007): the
+  validated gun-driven device geometry (conserver wall, coaxial gun
+  electrodes, end wall; the layout of Wood et al. 2005 with the printed
+  SSPX conserver dimensions as an anchor fixture), the deterministic
+  tier-G1 model record (`scpn.spheromak-3d-model.v1`) of five analytic
+  bodies with binary STL and glTF 2.0 exports, and the tier-G2 record
+  (`scpn.spheromak-cad-model.v1`) of the same bodies as B-rep solids on
+  the pinned OpenCASCADE kernel with the library's fail-closed per-body
+  evidence (`cad_evidence`) and a normalised deterministic STEP export
+  whose digest the record carries with the back-end versions. The
+  kernel-library pin moves to the commit carrying the CAD group, the
+  evidence kernel and the placement kernels; the dependency gains the
+  optional `cad` extra; the crate re-locks its kernel dependency at the
+  same commit and carries the group's documentation lints with `cargo
+  doc` in the rust gate; the CI gains a `cad` job (the system library the
+  mesher links against is installed first); standard-conformant
+  benchmarks with committed local artefacts for both tiers.
+
+### Added
+
 - Level-0 device physics (`src/scpn_spheromak_core/physics/`), the third
   implemented capability at `computational_prototype` (ADR 0005): the
   cylindrical Taylor eigenvalue of the flux conserver with its

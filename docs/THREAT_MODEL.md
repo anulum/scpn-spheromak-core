@@ -21,6 +21,7 @@ implementation, solver seam, federation) is added.
 |---|---|
 | `reactor-domain.json` | source of project identity; downstream projects bind to it; carries the exact pin of the shared kernel library (`kernel_library`) |
 | Pinned kernel library (`scpn-reactor-kernels` at one commit object) | every Bessel function, zero and unit-circle phase of the configuration and level-0 models comes from it, in Python and in the native crate; a substituted or drifted library would change numerics silently |
+| Pinned CAD back-end (OpenCASCADE through the library's `cad` extra) | the B-rep solids and the STEP bytes come from third-party C++; a version drift changes the export bytes silently unless detected |
 | `studio/portfolio-descriptor.json` | what the portfolio layer would ingest; must never overstate maturity |
 | `capability-inventory.json` | public truthfulness of "zero implemented capabilities" |
 | `docs/CONTROL_ADAPTER_SPECIFICATION.md` | safety-relevant contract text (no-direct-actuation semantics) |

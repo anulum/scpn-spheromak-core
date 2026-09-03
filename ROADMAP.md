@@ -54,6 +54,18 @@ this repository until it appears in the capability inventory with evidence.
   blockers under the same capability: the magnetic axis (first zero of
   `J1'` not in the library), the helicity–energy relation, the tilt
   criterion and the resistive decay time (no filed source).
+- **Device 3D model and device CAD model** (landed 2026-09-03) — the
+  validated gun-driven device geometry (flux-conserver wall, coaxial gun
+  electrodes, end wall; layout per Wood et al. 2005, with the printed
+  SSPX conserver dimensions as an anchor fixture), the deterministic
+  tier-G1 model of five analytic bodies with binary STL and glTF 2.0
+  exports, and the tier-G2 B-rep model of the same bodies with the
+  library's fail-closed per-body evidence and a normalised deterministic
+  STEP export digested into the canonical records;
+  `computational_prototype` (ADR 0007, `VALIDATION.md#device-3d-model`
+  and `VALIDATION.md#device-cad-model`). Follow-ups: the toroidal plasma
+  shape once the library lands the torus-segment primitive, and the
+  volume-mesh handoff of the neutronics lane.
 
 ## Planned (no implementation exists; ordering is not a commitment)
 1. **Safety-envelope declaration** — machine-readable operational envelope

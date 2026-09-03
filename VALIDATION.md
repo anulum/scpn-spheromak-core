@@ -27,7 +27,8 @@ followed by the evidence record of each implemented capability.
 | Licensing | `reuse lint` | REUSE 3.x compliance of the full tree |
 | Workflow lint | `actionlint` | all files under `.github/workflows/` |
 | Workflow modularity | `python3 tools/audit_workflows.py` | distributed workflow inventory: single ownership per job, coordinator/gate contract, action pinning, size ceilings |
-| Native crate | `make rust` | format, lint and unit tests of the optional native kernels (fetches the pinned kernel crate) |
+| Native crate | `make rust` (`cargo fmt --check`, `cargo clippy --all-targets --features python -- -D warnings`, `cargo doc --no-deps --features python`, `cargo test` in `rust/`) | formatting, lints with warnings denied, rustdoc coverage of the public surface (denied at the compiler), unit tests (fetches the pinned kernel crate) |
+| Native parity | `pytest -q tests/test_physics_native_parity.py tests/test_geometry_native_parity.py` (the second file needs the pinned library's native module) | bit-exact float64 agreement of the native kernels (physics and geometry) with the Python floor (skipped hermetically when the optional native module is absent) |
 | Documentation | `python3 tools/preflight.py --only docs` | UTF-8 readability and relative-link integrity of every Markdown file |
 | Orchestrated | `python3 tools/preflight.py` | fail-closed run of all gates above |
 
@@ -303,3 +304,138 @@ gate:
   domain (`clk_facility` root, `clk_shot` member); multi-domain rules
   are exercised by test-constructed plans. Scopes are declarations;
   `mapping_state` stays `unmapped`.
+
+## Device 3D model
+
+Evidence record of the `device_3d_model` capability
+(`computational_prototype`; design record: `docs/adr/0007-device-3d-and-cad-models.md`;
+consumer contract: `docs/DEVICE_3D_MODEL_CONTRACT.md`).
+
+The unit circle, the tessellation primitives, the closed-mesh contract and
+the STL/GLB serialisers are consumed from the shared kernel library
+`scpn-reactor-kernels`, pinned in the manifest (`kernel_library`: commit
+object and kernel-inventory digest) and in `pyproject.toml`; their evidence
+is the library's, at its `VALIDATION.md#geometry-kernels`. What this
+repository exercises, all under the 100 % statement-and-branch coverage
+gate (`src/scpn_spheromak_core/geometry/`):
+
+- **Device geometry** (`DeviceGeometry`): six SI parameters of the
+  gun-driven spheromak envelope (conserver wall, gun electrode radii and
+  wall, gun length, end-wall thickness) with fail-closed positivity and
+  the gun radial containment invariant, canonical bytes, SHA-256 digest
+  and a strict parser refusing unknown fields and non-finite literals;
+  every rejection branch is tested. The layout follows Wood et al.,
+  UCRL-JRNL-214703 (2005) (the coaxial gun below the conserver, its outer
+  electrode contiguous with the conserver wall); no dimension of any
+  device is used outside the anchor fixture.
+- **Device model** (`DeviceModel3D`, `scpn.spheromak-3d-model.v1`
+  `1.0.0`): five bodies in the fixed order with declared roles and
+  materials and the expected placements (gun below the conserver, end wall
+  closing it, plasma body as the conserver bore); convergence of every
+  body volume to its analytic cylinder or tube; the contiguity invariant
+  (the gun outer electrode's outer radius must equal the conserver bore
+  radius) refused fail-closed; the fixed body inventory; determinism
+  (two builds equal, digests equal); canonical bytes and one pinned
+  reference digest (segments = 8) as an immutability fixture.
+- **Anchor**: the anchor fixture carries the conserver dimensions the
+  layout source prints (one metre diameter, half a metre height) and the
+  tests prove both appear in the built bodies; the source's printed
+  plasma minor/major radii are deliberately not modelled at this tier.
+  Reproducing a printed dimension is an anchor, never a claim about that
+  machine.
+- **Exports**: the device-side provenance record (`glb_extras`) is exactly
+  what the library's GLB carries as document `extras`; the bytes are
+  proven identical to the library serialisers called directly; the binary
+  STL and glTF 2.0 binary layouts are read back with minimal
+  specification-level readers; determinism of the bytes; the file writers.
+- **Native parity**: `tests/test_geometry_native_parity.py` builds the
+  five device bodies on the library's Python floor and compares float64
+  bit patterns of every vertex coordinate, the face index streams, the
+  signed volume and the surface area against the library's native module
+  (`scpn_reactor_kernels_native`); the consumer inherits the library's
+  parity rather than re-proving the kernels. The crate in `rust/` carries
+  physics only.
+- **Benchmark**: `benchmarks/device_model_3d.py` per the ecosystem
+  benchmark standard, measuring the library's Python floor (through the
+  validated device build) against the library's native kernels; results in
+  `docs/benchmarks.md` and the committed local artefact
+  `benchmarks/results/device_model_3d.local.json`.
+
+Bounded claims — what is NOT claimed:
+
+- Every body is an analytic surface (cylinder or tube) of a synthetic
+  design: no CAD solid, no equilibrium boundary, no engineering model; the
+  plasma body is the cylindrical relaxed-state domain of the level-0
+  models, not the toroidal equilibrium shape.
+- The gun–conserver junction and feed-through hardware are not modelled;
+  the conserver's gun-side face is open.
+- No material property, load, field or neutronic quantity is carried or
+  implied by any body, role or material token.
+- No value describes, approximates or validates any real machine; the
+  benchmark measures tessellation cost, not physics.
+- Exporting STL and GLB files does not federate, present or gate this
+  repository anywhere; the portfolio layer keeps that authority.
+- Maturity stays `computational_prototype`.
+
+## Device CAD model
+
+Evidence record of the `device_cad_model` capability
+(`computational_prototype`; design record: `docs/adr/0007-device-3d-and-cad-models.md`;
+the STEP surface of the consumer contract `docs/DEVICE_3D_MODEL_CONTRACT.md`).
+
+The B-rep, STEP, faceting and evidence kernels are the shared library's
+`cad` group (the same `kernel_library` pin; the dependency's optional
+`cad` extra); their evidence is the library's, at its
+`VALIDATION.md#cad-kernels`. What this repository exercises, all under the
+100 % statement-and-branch coverage gate (`src/scpn_spheromak_core/geometry/cad.py`,
+`tests/test_geometry_cad.py`):
+
+- **Same design, same bodies**: the five B-rep bodies are built at the
+  names, roles, material tokens and extents of the tier-G1 model, proven
+  by an inventory comparison against `build_device_model`.
+- **B-rep measures against the analytic closed forms**: every body's
+  OpenCASCADE volume and surface area agree with the analytic cylinder or
+  tube forms within the library's measure tolerance `1e-9` relative,
+  fail-closed by construction of the record.
+- **Faceting evidence**: every body faceted at the declared deflections
+  (linear `1e-4 m`, angular `0.1 rad`) validates as a closed,
+  outward-oriented mesh of the G1 contract; the faceted volume deficit
+  against the analytic form stays within the declared bound `2 d / r`, and
+  the faceted volume agrees with the G1 reference mesh at the declared
+  eight segments within the exact polygon-deficit bound.
+- **Placement identities**: the gun bodies end where the conserver begins,
+  the end wall closes it face to face, and the gun outer electrode is
+  flush with the conserver bore, all read from the B-rep bounding boxes.
+- **STEP export**: the written file is exactly the byte string whose
+  SHA-256 the record carries as `step_sha256`; two builds of the same
+  design are byte-identical in the pinned back-end environment; a
+  re-import in a separate reader process reproduces every body volume
+  within `1e-9`.
+- **Anchor**: the printed conserver dimensions appear in the B-rep bodies
+  (height from the bounding box, bore from the analytic volumes the bodies
+  carry).
+- **Record**: `scpn.spheromak-cad-model.v1` `1.0.0` with canonical bytes,
+  SHA-256 digest and fixed non-claims; one pinned reference digest in the
+  reference back-end environment (cadquery 2.8.0, OCP 7.9.3.1) as an
+  immutability fixture; invalid segments, invalid deflections, a foreign
+  body inventory, a foreign manifest schema and a malformed STEP digest
+  are refused; the layout invariants of the G1 build are enforced on the
+  same path.
+- **Benchmark**: `benchmarks/device_model_cad.py` per the ecosystem
+  benchmark standard (build, export, facet and full record build);
+  results in `docs/benchmarks.md` and the committed local artefact
+  `benchmarks/results/device_model_cad.local.json`.
+
+Bounded claims — what is NOT claimed:
+
+- The bodies are exact analytic solids of a synthetic design built by a
+  pinned third-party kernel: not an engineering model, no equilibrium
+  boundary, no manufacturing drawing; the plasma body is the
+  conserver-bore cylinder.
+- Determinism of the STEP bytes is claimed within the pinned back-end
+  environment only; identity across OpenCASCADE or gmsh versions is not
+  claimed, and a back-end bump re-pins the record digest as a governed
+  data change.
+- No value describes, approximates or validates any real machine; the
+  benchmark measures build, export and faceting cost, not physics.
+- Maturity stays `computational_prototype`.

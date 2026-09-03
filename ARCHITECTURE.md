@@ -12,12 +12,15 @@ SCPN Spheromak Core — Architecture summary
 
 `SCPN-SPHEROMAK-CORE` is the device-family owner for spheromak systems
 inside the SCPN Reactor Systems Research Group. The repository holds
-three implemented capabilities at `computational_prototype` — the device
+five implemented capabilities at `computational_prototype` — the device
 configuration model (ADR 0002), the diagnostic and clock semantics model
-(ADR 0003) and the level-0 device physics (ADR 0005; the cylindrical
+(ADR 0003), the level-0 device physics (ADR 0005; the cylindrical
 Taylor eigenvalue, the relaxed-state field and the formation disposition
 on the pinned shared kernels, ADR 0006, with optional native kernels in
-`rust/`), all in `src/scpn_spheromak_core/` — alongside the device
+`rust/`), the device 3D model and the device CAD model (ADR 0007; the
+validated gun-driven geometry, deterministic analytic-surface meshes and
+B-rep solids of the same bodies with a normalised deterministic STEP
+export), all in `src/scpn_spheromak_core/` — alongside the device
 boundary, its ecosystem contracts, and the validation tooling that
 enforces them.
 
