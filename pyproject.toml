@@ -97,6 +97,7 @@ known-first-party = [
     "preflight",
     "physics_fixtures",
     "geometry_fixtures",
+    "observability_fixtures",
 ]
 
 [tool.mypy]
