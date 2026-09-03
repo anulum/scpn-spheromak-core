@@ -52,14 +52,22 @@ LEVEL0_RADIAL_STATIONS: Final = (0.0, 0.25, 0.5, 0.75, 1.0)
 #: The plan's axial divisions (stations ``z / L`` at quarters).
 LEVEL0_AXIAL_DIVISIONS: Final = 4
 LEVEL0_NON_CLAIMS: Final = (
-    "closed-form evaluation of the lowest axisymmetric relaxed state of an "
-    "ideal cylindrical flux conserver on a synthetic configuration",
-    "no equation is solved: no equilibrium reconstruction, no stability, "
-    "confinement, helicity-balance or resistive-decay calculation",
-    "the formation disposition restates a published operating rule of thumb "
-    "against a declared tolerance; it predicts nothing",
-    "no value describes or validates any real machine; the eigenvalue anchor "
-    "reproduces one printed number within its declared tolerance",
+    (
+        "closed-form evaluation of the lowest axisymmetric relaxed state of an "
+        "ideal cylindrical flux conserver on a synthetic configuration"
+    ),
+    (
+        "no equation is solved: no equilibrium reconstruction, no stability, "
+        "confinement, helicity-balance or resistive-decay calculation"
+    ),
+    (
+        "the formation disposition restates a published operating rule of thumb "
+        "against a declared tolerance; it predicts nothing"
+    ),
+    (
+        "no value describes or validates any real machine; the eigenvalue anchor "
+        "reproduces one printed number within its declared tolerance"
+    ),
 )
 
 

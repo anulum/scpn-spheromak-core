@@ -84,11 +84,15 @@ from scpn_spheromak_core.geometry.model import (
 CAD_MODEL_SCHEMA: Final = "scpn.spheromak-cad-model.v1"
 CAD_MODEL_SCHEMA_VERSION: Final = "1.0.0"
 CAD_MODEL_NON_CLAIMS: Final = (
-    "B-rep solids of the same declared design, built by the pinned "
-    "third-party OpenCASCADE kernel and checked against the analytic closed "
-    "forms; not an engineering model",
-    "the plasma body is the cylindrical relaxed-state domain, not the "
-    "toroidal equilibrium shape",
+    (
+        "B-rep solids of the same declared design, built by the pinned "
+        "third-party OpenCASCADE kernel and checked against the analytic closed "
+        "forms; not an engineering model"
+    ),
+    (
+        "the plasma body is the cylindrical relaxed-state domain, not the "
+        "toroidal equilibrium shape"
+    ),
     "the gun-conserver junction and feed-through hardware are not modelled",
     "no material property, load, field or neutronic quantity is carried",
     (

@@ -38,6 +38,7 @@ REGISTRY = RegistryBinding(version="1.0.0", digest_sha256="0" * 64)
 def synthetic_configuration(
     identifier: str = "spheromak",
     bias_flux_mwb: float = 15.0,
+    *,
     external_toroidal_field_coils: bool = False,
 ) -> DeviceConfiguration:
     """Build a valid synthetic configuration with optional overrides."""

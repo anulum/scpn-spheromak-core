@@ -58,8 +58,10 @@ MODEL_UNITS: Final = {
 MODEL_NON_CLAIMS: Final = (
     "analytic surfaces tessellated from a synthetic configuration and geometry",
     "no body is an equilibrium boundary, a CAD solid or an engineering model",
-    "the plasma body is the cylindrical relaxed-state domain, not the "
-    "toroidal equilibrium shape",
+    (
+        "the plasma body is the cylindrical relaxed-state domain, not the "
+        "toroidal equilibrium shape"
+    ),
     "the gun-conserver junction and feed-through hardware are not modelled",
     "no material property, load, field or neutronic quantity is carried",
     (
