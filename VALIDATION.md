@@ -136,8 +136,9 @@ What is exercised, all under the 100 % statement-and-branch coverage gate
   and a contract test proves the manifest, the `pyproject.toml`
   dependency, the installed library version, `rust/Cargo.toml`,
   `rust/Cargo.lock` and the CI install steps name one commit.
-- **Taylor eigenvalue** (`eigenvalue.py`; Hooper 2003 definition, Wood
-  2005 value, PPPL-2257 scaling): the SSPX conserver ("1 m diameter by
+- **Taylor eigenvalue** (`eigenvalue.py`; Hooper 2003 definition, OSTI
+  PDF p. 5; Wood 2005 value, OSTI PDF p. 6, dimensions p. 5; PPPL-2257
+  scaling, OSTI PDF p. 5): the SSPX conserver ("1 m diameter by
   0.5 m high") gives ``lambda_fc = 9.91 m^-1`` against the printed
   ``9.9 m^-1`` within the declared 1 % tolerance (0.1 %); doubling both
   extents halves the eigenvalue and both wavenumbers exactly (the
@@ -155,7 +156,11 @@ What is exercised, all under the 100 % statement-and-branch coverage gate
   model); the grid layout is fixed (radial outermost); stations outside
   ``[0, 1]``, division counts that are not positive multiples of four and
   a non-positive axis field are refused.
-- **Formation disposition** (`formation.py`; Wood 2005): hollow above
+- **Formation disposition** (`formation.py`; Wood 2005, OSTI PDF pp. 7–8;
+  the source prints the figure of merit as ``lambda_gun = I_gun / psi_gun``
+  on p. 7 and as ``mu0 I_gun / psi_gun`` on p. 8; the code uses the
+  ``mu0`` form, the one with the inverse-metre unit compared with
+  ``lambda_FC``): hollow above
   ``1 + tolerance``, peaked below ``1 - tolerance``, relaxed inside with
   inclusive edges; at zero tolerance the peaked side coincides with the
   configuration model's advisory finding; inputs outside their domains
