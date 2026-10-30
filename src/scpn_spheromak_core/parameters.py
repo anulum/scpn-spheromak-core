@@ -31,6 +31,17 @@ from scpn_reactor_kernels.numerics import BESSEL_J1_FIRST_ZERO as BESSEL_J1_FIRS
 from scpn_spheromak_core.errors import DeviceConfigurationError
 
 MU0: Final = 4.0e-7 * math.pi
+"""Vacuum permeability in henry per metre, in the exact pre-2019 SI convention.
+
+``4 pi x 10^-7`` is the value the cited formation literature (Bellan 2000)
+uses, so ``lambda_gun`` reproduces its printed relations unchanged. Since the
+2019 SI revision the permeability is measured: CODATA 2018 gives
+``1.25663706212(19) x 10^-6``, which differs from this convention by about
+``5.4 x 10^-10`` relative. ``lambda_gun`` is proportional to it, so the
+convention moves the formation parameter by the same relative amount, far
+below the resolution of the advisory formation threshold. Changing the
+convention is a versioned decision, not a silent update.
+"""
 
 
 def require_finite(name: str, value: float) -> float:

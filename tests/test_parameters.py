@@ -109,3 +109,18 @@ def test_invalid_source_is_rejected(overrides: dict[str, float], fragment: str) 
     """Each formation-source violation is rejected with its field name."""
     with pytest.raises(DeviceConfigurationError, match=fragment):
         synthetic_source(**overrides)
+
+
+#: CODATA 2018 recommended vacuum permeability, H/m (measured since 2019).
+CODATA_2018_MU0 = 1.25663706212e-6
+
+
+def test_mu0_is_the_exact_pre_2019_convention() -> None:
+    """MU0 keeps the 4 pi x 10^-7 convention of the cited literature."""
+    assert 4.0e-7 * math.pi == MU0
+
+
+def test_mu0_convention_differs_from_codata_2018_by_its_documented_amount() -> None:
+    """The convention moves lambda_gun by about 5.4e-10 relative, as documented."""
+    relative = (CODATA_2018_MU0 - MU0) / CODATA_2018_MU0
+    assert 5.0e-10 < relative < 6.0e-10

@@ -45,6 +45,9 @@ SCPN Spheromak Core — CHANGELOG
 
 ### Changed
 
+- `MU0` documents its convention: the exact pre-2019 SI value `4 pi x 10^-7`
+  H/m used by the cited formation literature, about `5.4 x 10^-10` relative
+  below CODATA 2018; its value is unchanged and bound by tests.
 - `scpn_spheromak_core.observability` is now a package with one module per
   responsibility — vocabulary, catalogue binding, frames, clocks, signals and
   channels, plan composition, record parsing — behind the unchanged public
