@@ -12,6 +12,30 @@ SCPN Spheromak Core — CHANGELOG
 
 ## [Unreleased]
 
+### Security
+
+- `configuration_from_bytes` and `geometry_from_bytes` refuse duplicate JSON
+  members and any document that is not byte-for-byte the canonical
+  serialisation, as the diagnostic-plan and plan-envelope parsers already
+  did; a duplicate member was resolved last-wins.
+- All four public parsers report JSON nested deeper than the decoder can
+  follow as their own error type; a `RecursionError` previously escaped
+  them. Property and fuzz tests cover arbitrary bytes, single-byte
+  mutations, field substitutions and overflowing number literals.
+
+### Fixed
+
+- `build_device_cad` raises `CadUnavailableError` when the optional CAD
+  back-end is missing, as documented; it previously re-raised it as
+  `DeviceGeometryError`.
+
+### Added
+
+- An installed-wheel job in the required CI gate: the wheel is built
+  without build isolation from hash-locked `setuptools` and `wheel`
+  (`requirements-build.txt`), installed into clean base and CAD environments
+  and exercised from outside the checkout by `tools/installed_package_check.py`.
+
 ### Changed
 
 - The documentation gate reads only files git would publish, so a

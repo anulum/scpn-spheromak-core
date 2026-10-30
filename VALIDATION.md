@@ -31,6 +31,7 @@ followed by the evidence record of each implemented capability.
 | Native parity | `pytest -q tests/test_physics_native_parity.py tests/test_geometry_native_parity.py` (the second file needs the pinned library's native module) | bit-exact float64 agreement of the native kernels (physics and geometry) with the Python floor (skipped hermetically when the optional native module is absent) |
 | Documentation | `python3 tools/preflight.py --only docs` | UTF-8 readability and relative-link integrity of every Markdown file |
 | Orchestrated | `python3 tools/preflight.py` | fail-closed run of all gates above |
+| Installed wheel (CI only) | `python -I tools/installed_package_check.py --mode base|cad --checkout <checkout>` in clean environments holding the built wheel with the kernel library (base) or with the CAD extra (cad) | package imported from site-packages, `py.typed` shipped, metadata version and kernel requirement, configuration and geometry round trip, deterministic level-0 record and device model; base must raise `CadUnavailableError` for a CAD request, cad must build a STEP model |
 
 ## Workflow gates
 
