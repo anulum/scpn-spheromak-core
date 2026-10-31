@@ -37,14 +37,17 @@ family pilot.
    ``external_toroidal_field_coils`` and it must be false — the
    spheromak's toroidal field is self-generated, and the absence of
    external toroidal-field coils is a defining property of the class
-   (P. M. Bellan, Spheromaks, Imperial College Press, 2000).
+   ("there are no toroidal magnetic field coils linking the plasma":
+   R. D. Wood et al., UCRL-JRNL-214703 (2005), PDF p. 4).
 4. Advisory estimates, reported by `consistency_report()` and never
    clamped: the Taylor-state eigenvalue of a cylindrical flux conserver
    ``lambda_fc = sqrt((3.832/R)^2 + (pi/L)^2)`` (first zero of J1;
-   Bellan 2000, ch. 3) is compared with the source parameter
-   ``lambda_gun = mu0 I_gun / Phi_bias``; a source below the
-   flux-conserver eigenvalue is flagged because spheromak formation is
-   not expected below the threshold (Bellan 2000, ch. 4).
+   eigenvalue of ``curl B = lambda_fc B`` as defined in Hooper et al.
+   2003, PDF p. 5) is compared with the source parameter
+   ``lambda_gun = mu0 I_gun / Phi_bias`` (Wood et al. 2005, PDF p. 8);
+   a source below the flux-conserver eigenvalue is flagged. Taking the
+   eigenvalue as the formation threshold is a declared modelling choice
+   (see the 2026-10-31 addendum).
 5. Repository-level `evidence_maturity` = the highest state claimed by
    any capability entry; per-capability states are the authoritative
    claim surface.
@@ -73,3 +76,17 @@ reproduces it bit for bit. The eigenvalue of any configuration changes in
 the fourth significant figure; the advisory's direction is unchanged for
 every exercised fixture. The applicability bounds and non-claims of this
 record are unchanged.
+
+## Addendum (2026-10-31) — credits bound to filed sources
+
+The class invariant, the eigenvalue and the formation-source parameter
+were credited to P. M. Bellan, Spheromaks (Imperial College Press, 2000),
+which is not on file; no page of it was read for them. They are now bound
+to the filed SSPX reports: Wood et al. (2005) PDF p. 4 (no toroidal-field
+coils link the plasma) and p. 8 (``λgun=µ0Igun/ψgun``), and Hooper et al.
+(2003) PDF p. 5 (the eigenvalue of ``curl B = λ_fc B``, with SSPX run so
+that ``λ_gun`` is close to it). The filed Romero-Talamás et al. (2005)
+report prints a geometry-dependent ejection threshold
+``I_cr ~ 15 φ_0/µ_0`` (PDF p. 7), so flagging a source below the
+eigenvalue is a declared modelling choice, and the finding now says
+"declared threshold". No invariant, formula or threshold value changed.

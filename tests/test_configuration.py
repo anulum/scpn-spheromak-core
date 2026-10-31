@@ -85,6 +85,7 @@ def test_consistency_report_clean_and_finding() -> None:
     assert len(findings) == 1
     assert findings[0].field == "source.gun_current_ma"
     assert "formation is not" in findings[0].message
+    assert "declared threshold" in findings[0].message
 
 
 def test_canonical_round_trip_and_digest() -> None:

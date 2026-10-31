@@ -11,10 +11,16 @@
 A :class:`DeviceConfiguration` composes a validated flux conserver and
 formation source under the single registry identifier this repository
 owns. The absence of external toroidal-field coils is enforced as a hard
-invariant — the spheromak's toroidal field is self-generated (P. M.
-Bellan, Spheromaks, 2000). The formation-source parameter ``lambda_gun``
-is compared with the conserver's Taylor eigenvalue and a source below
-the threshold is flagged. Serialisation is canonical (sorted keys, no
+invariant ("there are no toroidal magnetic field coils linking the
+plasma": R. D. Wood et al., UCRL-JRNL-214703 (2005), PDF p. 4). The
+formation-source parameter ``lambda_gun`` is compared with the
+conserver's Taylor eigenvalue and a source below it is flagged. Using
+the eigenvalue as the threshold is a declared modelling choice: the
+filed SSPX reports print operation with ``lambda_gun`` close to the
+eigenvalue (Hooper et al. 2003, PDF p. 5) and a geometry-dependent
+ejection threshold ``I_cr ~ 15 phi_0 / mu0`` (C. A. Romero-Talamás et
+al., UCRL-JRNL-216962 (2005), PDF p. 7), not a formation threshold
+equal to the eigenvalue. Serialisation is canonical (sorted keys, no
 NaN or infinity accepted anywhere) and the SHA-256 digest of those bytes
 identifies the exact parameter set. The registry binding is a data pin
 only — this package never imports SCPN Phase Orchestrator code.
@@ -165,7 +171,7 @@ class DeviceConfiguration:
                         f"formation-source parameter {gun:.3f} 1/m is below "
                         f"the flux-conserver Taylor eigenvalue "
                         f"{conserver:.3f} 1/m; spheromak formation is not "
-                        "expected below the threshold"
+                        "expected below the declared threshold"
                     ),
                 )
             )

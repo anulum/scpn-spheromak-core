@@ -82,7 +82,7 @@ What is exercised, all under the 100 % statement-and-branch coverage gate:
   `FormationSource`, `DeviceConfiguration`) rejecting non-finite values,
   non-positive extents, and the hard class invariant that external
   toroidal-field coils are absent (the spheromak toroidal field is
-  self-generated; Bellan, Spheromaks, 2000) — every rejection branch is
+  self-generated; Wood et al. 2005, PDF p. 4) — every rejection branch is
   tested.
 - Advisory consistency findings with documented bounds, reported and
   never clamped: the formation-source parameter
@@ -91,7 +91,10 @@ What is exercised, all under the 100 % statement-and-branch coverage gate:
   `lambda_fc = sqrt((j11/R)^2 + (pi/L)^2)` with `j11` the shared kernel
   library's correctly rounded first zero of `J1` (the earlier literal
   `3.832` was its rounding; ADR 0002 addendum); a source below the
-  threshold is flagged (Bellan 2000, chs. 3-4).
+  declared threshold is flagged (λ_gun printed in Wood et al. 2005,
+  PDF p. 8; eigenvalue defined in Hooper et al. 2003, PDF p. 5; the
+  eigenvalue as threshold is a modelling choice, ADR 0002 addendum
+  2026-10-31; the earlier Bellan 2000 credit is removed, not on file).
 - Canonical serialisation (sorted keys, NaN/infinity rejected on both
   emit and parse), SHA-256 digest identity, and a strict round-trip
   parser that refuses unknown fields.

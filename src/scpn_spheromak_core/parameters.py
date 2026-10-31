@@ -14,8 +14,9 @@ the Taylor-state eigenvalue of a cylindrical flux conserver
 positive zero of the Bessel function ``J1`` (the shared kernel library's
 correctly rounded constant, OEIS A115369; the earlier literal ``3.832``
 was its rounding), and the formation-source parameter
-``lambda_gun = mu0 I_gun / Phi_bias`` (P. M. Bellan, Spheromaks, Imperial
-College Press, 2000, chs. 3-4). Both are rough consistency instruments
+``lambda_gun = mu0 I_gun / Phi_bias`` (printed as ``λgun=µ0Igun/ψgun`` in
+the filed SSPX report, R. D. Wood et al., UCRL-JRNL-214703 (2005), PDF
+p. 8). Both are rough consistency instruments
 with documented applicability bounds; no claim about any real machine
 follows from them.
 """
@@ -33,8 +34,8 @@ from scpn_spheromak_core.errors import DeviceConfigurationError
 MU0: Final = 4.0e-7 * math.pi
 """Vacuum permeability in henry per metre, in the exact pre-2019 SI convention.
 
-``4 pi x 10^-7`` is the value the cited formation literature (Bellan 2000)
-uses, so ``lambda_gun`` reproduces its printed relations unchanged. Since the
+``4 pi x 10^-7`` is the convention of the pre-2019 formation literature, so
+``lambda_gun`` keeps its printed relations unchanged. Since the
 2019 SI revision the permeability is measured: CODATA 2018 gives
 ``1.25663706212(19) x 10^-6``, which differs from this convention by about
 ``5.4 x 10^-10`` relative. ``lambda_gun`` is proportional to it, so the
@@ -137,7 +138,10 @@ class FluxConserverGeometry:
         float
             ``lambda_fc = sqrt((j11 / R)^2 + (pi / L)^2)`` in inverse
             metres — the force-free eigenvalue of the minimum-energy
-            state in a cylindrical conserver (Bellan 2000, ch. 3),
+            state in a cylindrical conserver (the eigenvalue of
+            ``curl B = lambda_fc B`` as defined in the filed E. B. Hooper
+            et al. (2003) report, PDF p. 5; the cylindrical form is the
+            Chandrasekhar-Kendall separation),
             evaluated as ``sqrt(k_r k_r + k_z k_z)`` with ``k_r = j11 / R``
             and ``k_z = pi / L`` (the level-0 physics reproduces it bit
             for bit).
@@ -187,6 +191,6 @@ class FormationSource:
         float
             ``lambda_gun = mu0 I_gun / Phi_bias`` in inverse metres,
             with the current in amperes and the flux in webers
-            (Bellan 2000, ch. 4).
+            (Wood et al. 2005, PDF p. 8).
         """
         return MU0 * (self.gun_current_ma * 1.0e6) / (self.bias_flux_mwb * 1.0e-3)
