@@ -416,8 +416,9 @@ class DiagnosticPlan:
                         message=(
                             f"declared tilt/shift band "
                             f"{channel.max_signal_frequency_hz:.1f} "
-                            "Hz is outside the spheromak tilt/shift and "
-                            "relaxation activity scale 1-200 kHz (Bellan 2000)"
+                            "Hz is outside the declared tilt/shift and "
+                            "relaxation design band 1-200 kHz (synthetic; "
+                            "not checked against a source on file)"
                         ),
                     )
                 )
@@ -428,8 +429,8 @@ class DiagnosticPlan:
                         message=(
                             "acquisition window "
                             f"{channel.acquisition_duration_s:.2e} s is "
-                            "longer than the spheromak decay scale of up to "
-                            "~0.1 s (Bellan 2000)"
+                            "longer than the declared ~0.1 s decay-duration "
+                            "bound (synthetic; not checked against a source on file)"
                         ),
                     )
                 )

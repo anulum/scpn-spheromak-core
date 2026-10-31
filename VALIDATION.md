@@ -225,8 +225,12 @@ What is exercised, all under the 100 % statement-and-branch coverage gate:
   release is rejected.
 - A reference plan mirroring canonical practice with synthetic
   declarations: flux loops, Thomson profiles, surface probe array, synthetic oscillator, each bound to its clock domain.
-- A documented advisory band check with its source stated in the code:
-  spheromak tilt/shift and relaxation activity in the 1–200 kHz scale (Bellan 2000); findings are reported, never clamped.
+- Advisory checks against declared synthetic design bounds: a tilt/shift and
+  relaxation band of 1–200 kHz and a ~0.1 s decay-duration bound. They were
+  earlier credited to P. M. Bellan, Spheromaks (2000), which is not on file
+  (the filed Hooper et al. 2003 prints ms-scale SSPX discharge times but
+  neither bound), so they were never checked against it; the attribution was
+  removed (2026-10-31). Findings are reported, never clamped.
 - Canonical serialisation (sorted keys, NaN/infinity rejected on both
   emit and parse), SHA-256 digest identity, and a strict round-trip
   parser that refuses unknown fields.

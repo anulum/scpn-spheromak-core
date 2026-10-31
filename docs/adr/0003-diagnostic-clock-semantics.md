@@ -49,7 +49,12 @@ The `closed.recurrent_transient` candidate is catalogue-restricted to the tokama
    facility monotonic clock, noncyclic to either non-simulation clock).
 4. Timing is fail-closed where physics fixes the bound: the Nyquist
    criterion for cyclic channels. The device-typical band check is
-   advisory only: the spheromak tilt/shift and relaxation activity scale 1–200 kHz (P. M. Bellan, Spheromaks, 2000).
+   advisory only and compares against declared synthetic design bounds: a
+   tilt/shift and relaxation band of 1–200 kHz and a ~0.1 s decay-duration
+   bound. An earlier version credited them to P. M. Bellan, Spheromaks
+   (2000), which is not on file (the filed Hooper et al. 2003 prints
+   ms-scale SSPX discharge times but neither bound), so they were never
+   checked against it (attribution removed 2026-10-31).
 5. The reference plan mirrors canonical practice with synthetic
    declarations: a flux-loop equilibrium set and Thomson-scattering profiles (noncyclic against the gun-discharge epoch), a surface magnetic-probe array for tilt/shift and relaxation activity (derived cyclic against the facility clock), and the model-owned synthetic oscillator (simulation clock). Every applicable candidate must be
    planned or explicitly deferred with a reason; every channel is
