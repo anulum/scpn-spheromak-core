@@ -385,7 +385,7 @@ def generate_no_tf_invariant() -> None:
     ax.text(
         7.5,
         -2.7,
-        "ACCEPTED · Bellan, Spheromaks (2000)",
+        "ACCEPTED · Wood et al., SSPX (2005)",
         color="#445566",
         fontsize=8,
         fontfamily="monospace",
@@ -437,7 +437,7 @@ def generate_formation_threshold() -> None:
     ax.text(
         x_threshold + 0.12,
         8.45,
-        "λ_gun = λ_Taylor",
+        "λ_gun = λ_Taylor (declared)",
         color=MAGENTA,
         fontsize=8.5,
         fontfamily="monospace",
